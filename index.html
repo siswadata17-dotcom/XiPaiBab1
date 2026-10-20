@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kuis Agama Islam - Bab 1 Berpikir Kritis</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    padding: 30px;
+  }
+  h1 { color: #4a148c; text-align: center; margin-bottom: 20px; }
+  h2 { color: #6a1b9a; margin: 15px 0; }
+  .form-group { margin-bottom: 15px; }
+  label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
+  input[type="text"], input[type="password"], input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+  input:focus { outline: none; border-color: #764ba2; }
+  button {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 5px;
+    font-weight: bold;
+  }
+  button:hover { opacity: 0.9; }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-danger { background: linear-gradient(135deg, #e53935, #b71c1c); }
+  .btn-success { background: linear-gradient(135deg, #43a047, #1b5e20); }
+  .btn-warning { background: linear-gradient(135deg, #fb8c00, #e65100); }
+  .btn-info { background: linear-gradient(135deg, #039be5, #01579b); }
+  .header-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f3e5f5;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .timer {
+    font-size: 24px;
+    font-weight: bold;
+    color: #c62828;
+    background: white;
+    padding: 8px 15px;
+    border-radius: 8px;
+    border: 2px solid #c62828;
+  }
+  .timer.warning { animation: blink 1s infinite; }
+  @keyframes blink { 50% { opacity: 0.5; } }
+  .question-box {
+    background: #fafafa;
+    border-left: 5px solid #764ba2;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+  }
+  .question-text { font-size: 17px; margin-bottom: 15px; font-weight: 600; }
+  .option {
+    display: block;
+    padding: 12px;
+    margin: 8px 0;
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .option:hover { background: #ede7f6; border-color: #764ba2; }
+  .option input { margin-right: 10px; }
+  .option.selected { background: #d1c4e9; border-color: #764ba2; }
+  .navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .question-nav {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 5px;
+    margin: 15px 0;
+  }
+  .q-btn {
+    padding: 8px;
+    font-size: 13px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  .q-btn.answered { background: #4caf50; color: white; border-color: #4caf50; }
+  .q-btn.current { background: #ff9800; color: white; border-color: #ff9800; }
+  .violation-warning {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(200, 0, 0, 0.95);
+    color: white;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+  }
+  .violation-warning.show { display: flex; }
+  .violation-counter {
+    background: #ffebee;
+    border: 2px solid #c62828;
+    color: #c62828;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: bold;
+  }
+  .result-box {
+    text-align: center;
+    padding: 30px;
+  }
+  .score {
+    font-size: 72px;
+    font-weight: bold;
+    color: #4a148c;
+    margin: 20px 0;
+  }
+  .result-info {
+    background: #f3e5f5;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    text-align: left;
+  }
+  .result-info p { margin: 8px 0; font-size: 16px; }
+  .teacher-panel {
+    background: #fff3e0;
+    border: 2px dashed #fb8c00;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 20px;
+  }
+  .hidden { display: none !important; }
+  .progress-bar {
+    width: 100%;
+    height: 10px;
+    background: #eee;
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 10px 0;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    transition: width 0.3s;
+  }
+  .modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+  }
+  .modal.show { display: flex; }
+  .modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 400px;
+    width: 90%;
+  }
+  @media print {
+    body * { visibility: hidden; }
+    .no-print, .no-print * { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- FORM LOGIN -->
+<div id="loginScreen" class="container">
+  <h1>📚 Kuis Agama Islam</h1>
+  <h2 style="text-align:center;">Bab 1: Berpikir Kritis (Q.S. Ali 'Imran: 190-191)</h2>
+  <p style="text-align:center; margin: 15px 0; color: #666;">
+    ⏱️ Waktu: 60 Menit | 📝 50 Soal Pilihan Ganda | 🚫 Anti-Screenshot Aktif
+  </p>
+  <div class="form-group">
+    <label>Nama Lengkap:</label>
+    <input type="text" id="inputNama" placeholder="Masukkan nama lengkap" required>
+  </div>
+  <div class="form-group">
+    <label>Nomor Absen:</label>
+    <input type="text" id="inputNomor" placeholder="Masukkan nomor absen" required>
+  </div>
+  <div class="form-group">
+    <label>Kelas:</label>
+    <input type="text" id="inputKelas" placeholder="Contoh: XI RPL 1" required>
+  </div>
+  <button onclick="startQuiz()" style="width:100%;">🚀 Mulai Mengerjakan</button>
+  <div class="teacher-panel">
+    <h3>🔐 Akses Guru</h3>
+    <input type="password" id="teacherPassword" placeholder="Password Guru" style="margin-bottom:10px;">
+    <button class="btn-danger" onclick="teacherReset()">Reset Semua Data Siswa</button>
+  </div>
+</div>
+
+<!-- QUIZ SCREEN -->
+<div id="quizScreen" class="container hidden">
+  <div class="header-info">
+    <div>
+      <strong id="displayNama"></strong><br>
+      <small>No: <span id="displayNomor"></span> | Kelas: <span id="displayKelas"></span></small>
+    </div>
+    <div class="timer" id="timer">60:00</div>
+    <div class="violation-counter">⚠️ Pelanggaran: <span id="violationCount">0</span>/5</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div id="questionContainer"></div>
+  <div class="question-nav" id="questionNav"></div>
+  <div class="navigation">
+    <button class="btn-info" onclick="prevQuestion()">← Sebelumnya</button>
+    <button class="btn-warning" onclick="showQuestionNav()">📋 Navigasi Soal</button>
+    <button class="btn-success" onclick="nextQuestion()">Selanjutnya →</button>
+  </div>
+  <div style="text-align:center; margin-top:20px;">
+    <button class="btn-danger" onclick="confirmSubmit()" id="submitBtn" disabled>
+      📤 Kumpulkan Jawaban
+    </button>
+    <p style="color:#c62828; font-size:13px; margin-top:5px;">
+      * Tombol kumpulkan aktif setelah waktu habis (60 menit)
+    </p>
+  </div>
+  <div class="teacher-panel">
+    <h3>🔐 Reset oleh Guru</h3>
+    <input type="password" id="resetPassword" placeholder="Password Guru">
+    <button class="btn-danger" onclick="teacherResetSession()">Reset Sesi Ini</button>
+  </div>
+</div>
+
+<!-- RESULT SCREEN -->
+<div id="resultScreen" class="container hidden">
+  <div class="result-box">
+    <h1>📊 Hasil Kuis</h1>
+    <div class="score"><span id="finalScore">0</span></div>
+    <p style="font-size:20px;">Nilai Anda</p>
+    <div class="result-info">
+      <p><strong>👤 Nama:</strong> <span id="resultNama"></span></p>
+      <p><strong>🔢 Nomor:</strong> <span id="resultNomor"></span></p>
+      <p><strong>🏫 Kelas:</strong> <span id="resultKelas"></span></p>
+      <p><strong>⚠️ Jumlah Pelanggaran:</strong> <span id="resultPelanggaran"></span></p>
+      <p><strong>✅ Jawaban Benar:</strong> <span id="resultBenar"></span>/50</p>
+      <p><strong>❌ Jawaban Salah:</strong> <span id="resultSalah"></span></p>
+      <p><strong>⏱️ Waktu Selesai:</strong> <span id="resultWaktu"></span></p>
+    </div>
+    <div class="teacher-panel">
+      <h3>🔐 Reset oleh Guru</h3>
+      <input type="password" id="resultResetPassword" placeholder="Password Guru">
+      <button class="btn-danger" onclick="teacherResetResult()">Reset & Kerjakan Ulang</button>
+    </div>
+  </div>
+</div>
+
+<!-- VIOLATION WARNING -->
+<div id="violationWarning" class="violation-warning">
+  <div>
+    🚫 PERINGATAN! 🚫<br>
+    AKTIVITAS SCREENSHOT TERDETEKSI!<br>
+    <span id="violationMsg"></span>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <h2 id="modalTitle">Konfirmasi</h2>
+    <p id="modalMessage" style="margin:15px 0;"></p>
+    <div style="text-align:right;">
+      <button class="btn-info" onclick="closeModal()">Batal</button>
+      <button class="btn-success" id="modalConfirmBtn">Ya</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ========== DATA SOAL ==========
+const soalData = [
+  {q:"Surah yang menjadi fokus utama Bab 1 tentang berpikir kritis dalam materi pembelajaran adalah...",o:["Q.S. Ali 'Imran/3: 190-191","Q.S. Al-Baqarah/2: 31","Q.S. An-Nahl/16: 78","Q.S. Al-Mulk/67: 10","Q.S. Ar-Rum/30: 8"],a:0},
+  {q:"Menurut KBBI, berpikir didefinisikan sebagai...",o:["Kegiatan membaca teks suci secara tartil","Menggunakan akal budi untuk mempertimbangkan dan memutuskan sesuatu","Proses menghafal ayat-ayat Al-Qur'an","Kemampuan menciptakan hal baru","Sikap pasrah total"],a:1},
+  {q:"Dalam asbabun nuzul, kaum Yahudi menyebutkan mukjizat Nabi Musa A.S. berupa...",o:["Menghidupkan orang mati","Menjadikan Bukit Shafa emas","Tongkatnya dan tangannya yang putih bersinar","Membelah lautan","Menurunkan kitab Taurat"],a:2},
+  {q:"Istilah untuk orang yang memiliki akal sempurna menurut Ibnu Katsir adalah...",o:["Ulul azmi","Khalifah fil ardh","Hamba yang bertakwa","Ulil albāb","Uswatun hasanah"],a:3},
+  {q:"Alasan terjadinya hukum bacaan Mad 'Aridh Lissukun adalah...",o:["Karena bertemu huruf hamzah","Karena ada alif lam qamariyyah","Karena pertemuan dengan nun sukun","Karena ada qalqalah sugra","Karena Mad Tabi'i dibaca waqaf"],a:4},
+  {q:"Permintaan kaum Quraisy yang memicu turunnya Q.S. Ali 'Imran/3: 190-191 adalah agar...",o:["Bukit Shafa menjadi emas","Nabi Isa dihidupkan kembali","Tongkat Nabi Musa diberikan","Siang malam berhenti berganti","Kaum Yahudi masuk Islam"],a:0},
+  {q:"Ciri utama ulil albāb dalam Q.S. Ali 'Imran/3: 191 adalah mengingat Allah dalam keadaan...",o:["Hanya saat salat fardu","Berdiri, duduk, maupun berbaring","Saat masalah berat saja","Di dalam masjid","Saat membaca Al-Qur'an pagi"],a:1},
+  {q:"Hadis tentang berpikir kritis dari Ibnu Abbas R.A. tercatat dalam kitab...",o:["H.R. Muslim","H.R. Abu Daud","H.R. Bukhari","H.R. Tirmidzi","H.R. Nasai"],a:2},
+  {q:"Rasulullah Saw. bangun untuk beribadah pada waktu...",o:["Sepertiga malam pertama","Tengah malam","Setelah salat Isya","Sepertiga malam terakhir","Menjelang terbit fajar"],a:3},
+  {q:"Jumlah rakaat salat Rasulullah Saw. setelah berwudu dan bersiwak pada malam itu adalah...",o:["Dua rakaat","Empat rakaat","Delapan rakaat","Sepuluh rakaat","Sebelas rakaat"],a:4},
+  {q:"Salah satu hikmah berpikir kritis adalah...",o:["Memahami makna tersembunyi di balik penciptaan alam","Mendapatkan kekayaan melimpah","Menghindari interaksi sosial","Menjadi penguasa alam","Menghapus rasa ingin tahu"],a:0},
+  {q:"Sikap tawazun dalam berpikir kritis berarti...",o:["Mengutamakan akal di atas segalanya","Menggunakan akal, hati, dan nafsu secara seimbang","Menolak pemikiran luar","Hanya fokus akhirat","Mengikuti pendapat mayoritas"],a:1},
+  {q:"Orang yang berpikir kritis dalam Islam tidak hanya memikirkan dunia, tetapi juga...",o:["Kehidupan orang lain","Kehidupan masa lalu","Kehidupan akhirat","Kehidupan hewan","Kehidupan planet lain"],a:2},
+  {q:"Langkah membiasakan berpikir kritis di era keterbukaan informasi adalah...",o:["Langsung menyebarkan informasi","Mengabaikan semua informasi","Mempercayai sesuai keinginan","Membedakan fakta/fiksi dan menyaring","Menantang pembuat informasi"],a:3},
+  {q:"Makna kreatif menurut KBBI adalah...",o:["Memiliki daya cipta atau kemampuan menciptakan","Menghafal banyak informasi","Kemampuan fisik kuat","Memimpin kelompok tegas","Kekayaan cukup"],a:4},
+  {q:"Arti kata 'Qiyaman' dalam Q.S. Ali 'Imran/3: 191 adalah...",o:["Berdiri","Duduk","Berbaring","Memikirkan","Berbicara"],a:0},
+  {q:"Penyakit sopak yang disembuhkan Nabi Isa A.S. adalah...",o:["Penyakit mata buta","Penyakit kulit","Penyakit cacar air","Penyakit demam tinggi","Penyakit lumpuh"],a:1},
+  {q:"Ulil albāb memohon agar dijauhkan dari...",o:["Kemiskinan","Fitnah masyarakat","Siksa neraka atas dosa yang pernah diperbuat","Godaan setan","Penyakit"],a:2},
+  {q:"Perilaku yang mencerminkan hadis berpikir kritis adalah...",o:["Tidur sepanjang malam","Mengisi kesempatan dengan amalan bernilai ibadah","Menghindari salat berjamaah","Hanya beribadah saat musibah","Mengutamakan duniawi"],a:3},
+  {q:"Dalam Q.S. An-Nahl/16: 78, manusia diberi indera agar...",o:["Menikmati hiburan","Menjadi makhluk terkuat","Selalu bersyukur, salah satunya dengan berpikir","Menguasai teknologi","Mengetahui rahasia gaib"],a:4},
+  {q:"Salah satu hukum bacaan dalam Q.S. Ali 'Imran/3: 190-191 adalah...",o:["Idgam Bigunnah","Mad Lazim Mutsaqqal","Ikhfa Syafawi","Mad Badal","Qalqalah Kubra"],a:0},
+  {q:"Menurut Mertes, berpikir kritis melibatkan...",o:["Kekuatan fisik dan mental","Sikap reflektif dan kemampuan memandu keyakinan dan tindakan","Kecepatan mengambil keputusan","Sumber daya finansial","Dukungan masyarakat"],a:1},
+  {q:"Cara mengetahui segalanya adalah dengan belajar, banyak membaca, dan...",o:["Banyak bertanya kepada yang ahli","Banyak berimajinasi","Mengisolasi diri","Mengandalkan firasat","Meniru orang lain"],a:2},
+  {q:"Tadarus Al-Qur'an sebelum pembelajaran dilakukan selama...",o:["5 menit","10 menit","15 menit","20 menit","30 menit"],a:3},
+  {q:"Ciri ulil albāb adalah keyakinan bahwa tidak ada ciptaan Allah yang...",o:["Memiliki manfaat","Diciptakan dengan tujuan","Sia-sia","Perlu direnungkan","Menunjukkan kebesaran-Nya"],a:4},
+  {q:"Siswa mengecek berita ke BMKG sebelum menyebarkan. Ini mencerminkan...",o:["Tabayyun dalam berpikir kritis","Berpikir kreatif","Sikap apatis","Tawazun waktu","Uswatun hasanah"],a:0},
+  {q:"Hanya menggunakan akal untuk duniawi bertentangan dengan konsep berpikir kritis yang mengajarkan...",o:["Fokus materi","Memandang jauh ke depan, memikirkan dunia dan akhirat","Mengabaikan tanggung jawab","Mengutamakan hawa nafsu","Menolak teknologi"],a:1},
+  {q:"Hubungan Q.S. Ali 'Imran/3: 190 dan 191 adalah...",o:["190 perintah perang, 191 damai","190 hukum waris, 191 puasa","190 mengajak merenungi penciptaan, 191 menggambarkan ulil albāb","190 kisah Musa, 191 kisah Isa","190 larangan riba, 191 zakat"],a:2},
+  {q:"Tindakan Rasulullah melihat langit lalu membaca ayat menunjukkan...",o:["Ketakutan terhadap cuaca","Keterkaitan fenomena alam dengan ayat qauliyah","Kebiasaan tanpa tujuan","Perintah astronomi","Tanda wahyu baru"],a:3},
+  {q:"Pergantian siang malam tidak boleh dianggap biasa karena...",o:["Ditentukan manusia","Merupakan tanda kebesaran Allah yang membutuhkan akal","Tidak bermanfaat","Terjadi acak","Hanya orang kaya menikmati"],a:4},
+  {q:"Perbedaan berpikir kritis dan kreatif adalah...",o:["Kritis mencari jalan keluar, kreatif menciptakan ide baru","Kritis untuk akhirat, kreatif untuk dunia","Kritis dilarang, kreatif dianjurkan","Kritis tanpa akal, kreatif dengan akal","Kritis ulil albāb, kreatif orang kafir"],a:0},
+  {q:"Dalam 'Ruang Kolaborasi', kelompok mahir bertugas...",o:["Belajar sendiri","Membimbing yang kurang mampu dengan target tuntas 1 bulan","Mengajar kelompok sedang tanpa batas","Menggantikan guru","Membuat soal"],a:1},
+  {q:"Arti kata 'Yatadabbarun' dalam Q.S. Ali 'Imran/3: 191 adalah...",o:["Berdiri","Duduk","(Mereka) memikirkan","Berbaring","Berzikir"],a:2},
+  {q:"Kaum Quraisy mendatangi kaum Nasrani untuk menanyakan...",o:["Kitab suci","Lokasi tinggal","Nabi Isa A.S. dan mukjizatnya","Cara berdagang","Silsilah keturunan"],a:3},
+  {q:"Husnuzan dan introspeksi diri adalah hasil pembiasaan...",o:["Berpikir logis","Berpikir analitis","Berpikir sistematis","Berpikir kritis","Berpikir kreatif"],a:4},
+  {q:"Peneliti menemukan manfaat tumbuhan untuk kemaslahatan umat. Ini mengamalkan...",o:["Memanfaatkan alam untuk kepentingan umat secara optimal","Menciptakan tumbuhan baru","Mengubah hukum alam","Mengklaim penemu tunggal","Mengabaikan tanda Allah"],a:0},
+  {q:"'Mad Tabi'i dibaca waqaf' adalah alasan hukum bacaan...",o:["Alif Lam Syamsiyyah","Mad 'Aridh Lissukun","Idgam Bigunnah","Qalqalah Sugra","Mad Tabi'i biasa"],a:1},
+  {q:"Salat sebelas rakaat di malam hari menunjukkan Rasulullah...",o:["Wajib salat malam lebih banyak","Hamba yang sangat rajin beribadah di malam hari","Lupa jumlah rakaat","Salat malam hanya 11 rakaat","Menunggu Subuh dengan tidur"],a:2},
+  {q:"Definisi Mertes tentang berpikir kritis menekankan pada...",o:["Kecepatan tanpa evaluasi","Mengikuti opini mayoritas","Sikap reflektif dan kemampuan memandu keyakinan dan tindakan","Menghafal tanpa memahami","Penolakan informasi baru"],a:3},
+  {q:"Cara menjaga hafalan Al-Qur'an agar tidak mudah lupa adalah...",o:["Menulis di dinding","Membaca hanya saat Ramadan","Mengajar yang tidak mau belajar","Membaca saat salat, terutama salat malam","Mendengar tanpa menghafal"],a:4},
+  {q:"Karakteristik ulil albāb yang paling tepat adalah...",o:["Senantiasa zikir dan merenungkan penciptaan alam","Hanya menggunakan akal untuk bisnis","Menghindari akal dalam agama","Percaya alam tercipta sendiri","Tidak peduli siksa neraka"],a:0},
+  {q:"Dalam Q.S. Al-Baqarah/2: 31, Allah mengajarkan manusia untuk...",o:["Berburu","Membaca, sehingga menjadi mengetahui","Membangun tempat tinggal","Menaklukkan hewan","Membuat api"],a:1},
+  {q:"Siswa menimbang-nimbang pilihan jurusan dengan mempertimbangkan dunia-akhirat. Proses ini disebut...",o:["Berpikir kreatif","Berpikir imajinatif","Berpikir kritis","Berpikir intuitif","Berpikir dogmatis"],a:2},
+  {q:"Ulil albāb memohon dijauhkan dari neraka karena...",o:["Takut kehilangan harta","Kesadaran semua bersumber dari Allah dan adanya dosa","Tidak yakin ada surga","Ingin pujian","Merasa dosa tak terampuni"],a:3},
+  {q:"'Saring dan pikirkan informasi' adalah langkah membiasakan berpikir kritis di era...",o:["Keterbelakangan teknologi","Keterbukaan informasi","Kesunyian komunikasi","Ketertutupan budaya","Keterbatasan akses"],a:4},
+  {q:"Makna 'Uswatun Hasanah' terkait akal adalah...",o:["Akal adalah karunia Allah yang harus digunakan untuk kebaikan","Akal sumber penyakit hati","Akal harus ditundukkan","Akal hanya dimiliki nabi","Akal tak berhubungan dengan iman"],a:0},
+  {q:"Jumlah rakaat salat Rasulullah setelah azan Bilal sebelum Subuh adalah...",o:["Satu rakaat","Dua rakaat","Tiga rakaat","Empat rakaat","Tidak salat"],a:1},
+  {q:"Pembiasaan berpikir kreatif menumbuhkan anggapan bahwa segala sesuatu pasti ada...",o:["Bahayanya","Rahasianya","Manfaatnya","Kelemahannya","Kekurangannya"],a:2},
+  {q:"Riwayat asbabun nuzul tentang Bukit Shafa diriwayatkan Ibnu Abi Hatim dari...",o:["Abu Hurairah","Umar bin Khattab","Aisyah","Ibnu Abbas","Anas bin Malik"],a:3},
+  {q:"Kesimpulan utama Q.S. Ali 'Imran/3: 190-191 dan hadis terkait adalah...",o:["Perintah menggunakan akal secara kritis, seimbang, dan mengingat Allah","Larangan mempelajari ilmu alam","Anjuran mengisolasi diri","Hanya fokus ibadah ritual","Menuntut ilmu hanya di lembaga formal"],a:4}
+];
+
+// ========== KONFIGURASI ==========
+const TEACHER_PASSWORD = "guru123"; // GANTI PASSWORD GURU DI SINI
+const QUIZ_DURATION = 60 * 60; // 60 menit dalam detik
+const MAX_VIOLATIONS = 5;
+
+// ========== STATE ==========
+let state = {
+  nama: '', nomor: '', kelas: '',
+  currentQuestion: 0,
+  answers: new Array(50).fill(null),
+  timeLeft: QUIZ_DURATION,
+  violations: 0,
+  started: false,
+  finished: false,
+  startTime: null,
+  endTime: null
+};
+
+let timerInterval = null;
+
+// ========== LOAD STATE FROM LOCALSTORAGE ==========
+function loadState() {
+  const saved = localStorage.getItem('quizState');
+  if (saved) {
+    state = JSON.parse(saved);
+    return true;
+  }
+  return false;
+}
+
+function saveState() {
+  localStorage.setItem('quizState', JSON.stringify(state));
+}
+
+// ========== INIT ==========
+window.onload = function() {
+  if (loadState()) {
+    if (state.finished) {
+      showResult();
+    } else if (state.started) {
+      resumeQuiz();
+    }
+  }
+  setupAntiCheat();
+};
+
+// ========== START QUIZ ==========
+function startQuiz() {
+  const nama = document.getElementById('inputNama').value.trim();
+  const nomor = document.getElementById('inputNomor').value.trim();
+  const kelas = document.getElementById('inputKelas').value.trim();
+  
+  if (!nama || !nomor || !kelas) {
+    alert('Mohon isi semua data dengan lengkap!');
+    return;
+  }
+  
+  state.nama = nama;
+  state.nomor = nomor;
+  state.kelas = kelas;
+  state.started = true;
+  state.startTime = Date.now();
+  state.timeLeft = QUIZ_DURATION;
+  saveState();
+  
+  showQuizScreen();
+  startTimer();
+}
+
+function resumeQuiz() {
+  document.getElementById('displayNama').textContent = state.nama;
+  document.getElementById('displayNomor').textContent = state.nomor;
+  document.getElementById('displayKelas').textContent = state.kelas;
+  document.getElementById('violationCount').textContent = state.violations;
+  
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('quizScreen').classList.remove('hidden');
+  
+  renderQuestion();
+  renderQuestionNav();
+  startTimer();
+}
+
+function showQuizScreen() {
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('quizScreen').classList.remove('hidden');
+  document.getElementById('displayNama').textContent = state.nama;
+  document.getElementById('displayNomor').textContent = state.nomor;
+  document.getElementById('displayKelas').textContent = state.kelas;
+  renderQuestion();
+  renderQuestionNav();
+}
+
+// ========== TIMER ==========
+function startTimer() {
+  updateTimerDisplay();
+  timerInterval = setInterval(() => {
+    state.timeLeft--;
+    if (state.timeLeft <= 0) {
+      state.timeLeft = 0;
+      clearInterval(timerInterval);
+      autoSubmit();
+    }
+    saveState();
+    updateTimerDisplay();
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const minutes = Math.floor(state.timeLeft / 60);
+  const seconds = state.timeLeft % 60;
+  const timerEl = document.getElementById('timer');
+  timerEl.textContent = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+  
+  if (state.timeLeft <= 300) {
+    timerEl.classList.add('warning');
+  }
+  
+  // Aktifkan tombol submit jika waktu habis
+  if (state.timeLeft <= 0) {
+    document.getElementById('submitBtn').disabled = false;
+  }
+}
+
+// ========== RENDER QUESTION ==========
+function renderQuestion() {
+  const q = soalData[state.currentQuestion];
+  const container = document.getElementById('questionContainer');
+  
+  let html = `<div class="question-box">
+    <div class="question-text">Soal ${state.currentQuestion + 1}. ${q.q}</div>`;
+  
+  q.o.forEach((opt, idx) => {
+    const checked = state.answers[state.currentQuestion] === idx ? 'checked' : '';
+    const selected = state.answers[state.currentQuestion] === idx ? 'selected' : '';
+    html += `<label class="option ${selected}" onclick="selectOption(${idx})">
+      <input type="radio" name="q${state.currentQuestion}" value="${idx}" ${checked}>
+      ${String.fromCharCode(65+idx)}. ${opt}
+    </label>`;
+  });
+  
+  html += `</div>`;
+  container.innerHTML = html;
+  
+  // Update progress
+  const answered = state.answers.filter(a => a !== null).length;
+  document.getElementById('progressFill').style.width = (answered/50*100) + '%';
+}
+
+function renderQuestionNav() {
+  const nav = document.getElementById('questionNav');
+  let html = '';
+  for (let i = 0; i < 50; i++) {
+    let cls = 'q-btn';
+    if (state.answers[i] !== null) cls += ' answered';
+    if (i === state.currentQuestion) cls += ' current';
+    html += `<button class="${cls}" onclick="goToQuestion(${i})">${i+1}</button>`;
+  }
+  nav.innerHTML = html;
+}
+
+function selectOption(idx) {
+  state.answers[state.currentQuestion] = idx;
+  saveState();
+  renderQuestion();
+  renderQuestionNav();
+}
+
+function nextQuestion() {
+  if (state.currentQuestion < 49) {
+    state.currentQuestion++;
+    saveState();
+    renderQuestion();
+    renderQuestionNav();
+    window.scrollTo(0,0);
+  }
+}
+
+function prevQuestion() {
+  if (state.currentQuestion > 0) {
+    state.currentQuestion--;
+    saveState();
+    renderQuestion();
+    renderQuestionNav();
+    window.scrollTo(0,0);
+  }
+}
+
+function goToQuestion(idx) {
+  state.currentQuestion = idx;
+  saveState();
+  renderQuestion();
+  renderQuestionNav();
+  document.getElementById('questionNav').classList.add('hidden');
+  setTimeout(() => document.getElementById('questionNav').classList.remove('hidden'), 100);
+  window.scrollTo(0,0);
+}
+
+function showQuestionNav() {
+  document.getElementById('questionNav').scrollIntoView({behavior:'smooth'});
+}
+
+// ========== SUBMIT ==========
+function confirmSubmit() {
+  if (state.timeLeft > 0) {
+    alert('Anda belum bisa mengumpulkan jawaban sebelum waktu habis!');
+    return;
+  }
+  showModal('Konfirmasi Pengumpulan', 'Apakah Anda yakin ingin mengumpulkan jawaban?', () => {
+    submitQuiz();
+  });
+}
+
+function autoSubmit() {
+  showModal('Waktu Habis!', 'Waktu pengerjaan telah berakhir. Jawaban akan dikumpulkan otomatis.', () => {
+    submitQuiz();
+  });
+}
+
+function submitQuiz() {
+  let correct = 0;
+  for (let i = 0; i < 50; i++) {
+    if (state.answers[i] === soalData[i].a) correct++;
+  }
+  state.score = correct * 2; // Skor maksimal 100
+  state.correct = correct;
+  state.wrong = 50 - correct;
+  state.finished = true;
+  state.endTime = Date.now();
+  saveState();
+  
+  clearInterval(timerInterval);
+  showResult();
+}
+
+function showResult() {
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('quizScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.remove('hidden');
+  
+  document.getElementById('finalScore').textContent = state.score;
+  document.getElementById('resultNama').textContent = state.nama;
+  document.getElementById('resultNomor').textContent = state.nomor;
+  document.getElementById('resultKelas').textContent = state.kelas;
+  document.getElementById('resultPelanggaran').textContent = state.violations;
+  document.getElementById('resultBenar').textContent = state.correct;
+  document.getElementById('resultSalah').textContent = state.wrong;
+  
+  const endTime = new Date(state.endTime);
+  document.getElementById('resultWaktu').textContent = endTime.toLocaleString('id-ID');
+}
+
+// ========== TEACHER RESET ==========
+function teacherReset() {
+  const pwd = document.getElementById('teacherPassword').value;
+  if (pwd === TEACHER_PASSWORD) {
+    if (confirm('Yakin ingin menghapus SEMUA data siswa?')) {
+      localStorage.removeItem('quizState');
+      location.reload();
+    }
+  } else {
+    alert('Password guru salah!');
+  }
+}
+
+function teacherResetSession() {
+  const pwd = document.getElementById('resetPassword').value;
+  if (pwd === TEACHER_PASSWORD) {
+    if (confirm('Yakin ingin reset sesi siswa ini?')) {
+      localStorage.removeItem('quizState');
+      location.reload();
+    }
+  } else {
+    alert('Password guru salah!');
+  }
+}
+
+function teacherResetResult() {
+  const pwd = document.getElementById('resultResetPassword').value;
+  if (pwd === TEACHER_PASSWORD) {
+    if (confirm('Yakin ingin reset? Siswa bisa mengerjakan ulang.')) {
+      localStorage.removeItem('quizState');
+      location.reload();
+    }
+  } else {
+    alert('Password guru salah!');
+  }
+}
+
+// ========== MODAL ==========
+function showModal(title, message, onConfirm) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalMessage').textContent = message;
+  document.getElementById('modal').classList.add('show');
+  document.getElementById('modalConfirmBtn').onclick = () => {
+    closeModal();
+    if (onConfirm) onConfirm();
+  };
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('show');
+}
+
+// ========== ANTI-CHEAT SYSTEM ==========
+function setupAntiCheat() {
+  // Disable right-click
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  
+  // Disable copy/cut/paste shortcuts
+  document.addEventListener('keydown', e => {
+    // Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+A, Ctrl+S, Ctrl+P
+    if (e.ctrlKey && ['c','v','x','a','s','p','u'].includes(e.key.toLowerCase())) {
+      e.preventDefault();
+      showViolation('Shortcut keyboard diblokir!');
+    }
+    // PrintScreen
+    if (e.key === 'PrintScreen' || e.key === 'PrtSc') {
+      e.preventDefault();
+      showViolation('Tombol PrintScreen diblokir!');
+    }
+    // F12 (Developer Tools)
+    if (e.key === 'F12') {
+      e.preventDefault();
+      showViolation('Developer Tools diblokir!');
+    }
+    // Ctrl+Shift+I/J/C (DevTools)
+    if (e.ctrlKey && e.shiftKey && ['i','j','c'].includes(e.key.toLowerCase())) {
+      e.preventDefault();
+      showViolation('Developer Tools diblokir!');
+    }
+  });
+  
+  // Disable copy via selection
+  document.addEventListener('copy', e => e.preventDefault());
+  document.addEventListener('cut', e => e.preventDefault());
+  
+  // Detect blur (tab switch, window switch)
+  window.addEventListener('blur', () => {
+    if (state.started && !state.finished) {
+      showViolation('Anda meninggalkan halaman!');
+    }
+  });
+  
+  // Detect visibility change
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && state.started && !state.finished) {
+      showViolation('Tab berpindah!');
+    }
+  });
+  
+  // Detect Windows+Shift+S (Snipping Tool) via keyboard
+  document.addEventListener('keydown', e => {
+    if (e.metaKey && e.shiftKey && e.key.toLowerCase() === 's') {
+      e.preventDefault();
+      showViolation('Snipping Tool terdeteksi!');
+    }
+  });
+}
+
+function showViolation(msg) {
+  if (!state.started || state.finished) return;
+  
+  state.violations++;
+  document.getElementById('violationCount').textContent = state.violations;
+  document.getElementById('violationMsg').textContent = `Pelanggaran ke-${state.violations}: ${msg}`;
+  document.getElementById('violationWarning').classList.add('show');
+  saveState();
+  
+  setTimeout(() => {
+    document.getElementById('violationWarning').classList.remove('show');
+  }, 2500);
+  
+  if (state.violations >= MAX_VIOLATIONS) {
+    setTimeout(() => {
+      alert('Anda telah melakukan 5 pelanggaran! Jawaban dikumpulkan otomatis.');
+      submitQuiz();
+    }, 2600);
+  }
+}
+
+// Prevent drag
+document.addEventListener('dragstart', e => e.preventDefault());
+</script>
+
+</body>
+</html>
