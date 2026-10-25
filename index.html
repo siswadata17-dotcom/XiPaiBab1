@@ -252,11 +252,11 @@
     <button class="btn-success" onclick="nextQuestion()">Selanjutnya →</button>
   </div>
   <div style="text-align:center; margin-top:20px;">
-    <button class="btn-danger" onclick="confirmSubmit()" id="submitBtn" disabled>
+    <button class="btn-danger" onclick="confirmSubmit()" id="submitBtn">
       📤 Kumpulkan Jawaban
     </button>
     <p style="color:#c62828; font-size:13px; margin-top:5px;">
-      * Tombol kumpulkan aktif setelah waktu habis (60 menit)
+      * Klik tombol di atas jika sudah selesai mengerjakan kuis
     </p>
   </div>
   <div class="teacher-panel">
@@ -327,42 +327,42 @@ const soalData = [
   {q:"Sikap tawazun dalam berpikir kritis berarti...",o:["Mengutamakan akal di atas segalanya","Menggunakan akal, hati, dan nafsu secara seimbang","Menolak pemikiran luar","Hanya fokus akhirat","Mengikuti pendapat mayoritas"],a:1},
   {q:"Orang yang berpikir kritis dalam Islam tidak hanya memikirkan dunia, tetapi juga...",o:["Kehidupan orang lain","Kehidupan masa lalu","Kehidupan akhirat","Kehidupan hewan","Kehidupan planet lain"],a:2},
   {q:"Langkah membiasakan berpikir kritis di era keterbukaan informasi adalah...",o:["Langsung menyebarkan informasi","Mengabaikan semua informasi","Mempercayai sesuai keinginan","Membedakan fakta/fiksi dan menyaring","Menantang pembuat informasi"],a:3},
-  {q:"Makna kreatif menurut KBBI adalah...",o:["Memiliki daya cipta atau kemampuan menciptakan","Menghafal banyak informasi","Kemampuan fisik kuat","Memimpin kelompok tegas","Kekayaan cukup"],a:4},
+  {q:"Makna kreatif menurut KBBI adalah...",o:["Memiliki daya cipta atau kemampuan menciptakan","Menghafal banyak informasi","Kemampuan fisik kuat","Memimpin kelompok tegas","Kekayaan cukup"],a:0},
   {q:"Arti kata 'Qiyaman' dalam Q.S. Ali 'Imran/3: 191 adalah...",o:["Berdiri","Duduk","Berbaring","Memikirkan","Berbicara"],a:0},
   {q:"Penyakit sopak yang disembuhkan Nabi Isa A.S. adalah...",o:["Penyakit mata buta","Penyakit kulit","Penyakit cacar air","Penyakit demam tinggi","Penyakit lumpuh"],a:1},
   {q:"Ulil albāb memohon agar dijauhkan dari...",o:["Kemiskinan","Fitnah masyarakat","Siksa neraka atas dosa yang pernah diperbuat","Godaan setan","Penyakit"],a:2},
-  {q:"Perilaku yang mencerminkan hadis berpikir kritis adalah...",o:["Tidur sepanjang malam","Mengisi kesempatan dengan amalan bernilai ibadah","Menghindari salat berjamaah","Hanya beribadah saat musibah","Mengutamakan duniawi"],a:3},
-  {q:"Dalam Q.S. An-Nahl/16: 78, manusia diberi indera agar...",o:["Menikmati hiburan","Menjadi makhluk terkuat","Selalu bersyukur, salah satunya dengan berpikir","Menguasai teknologi","Mengetahui rahasia gaib"],a:4},
+  {q:"Perilaku yang mencerminkan hadis berpikir kritis adalah...",o:["Tidur sepanjang malam","Mengisi kesempatan dengan amalan bernilai ibadah","Menghindari salat berjamaah","Hanya beribadah saat musibah","Mengutamakan duniawi"],a:1},
+  {q:"Dalam Q.S. An-Nahl/16: 78, manusia diberi indera agar...",o:["Menikmati hiburan","Menjadi makhluk terkuat","Selalu bersyukur, salah satunya dengan berpikir","Menguasai teknologi","Mengetahui rahasia gaib"],a:2},
   {q:"Salah satu hukum bacaan dalam Q.S. Ali 'Imran/3: 190-191 adalah...",o:["Idgam Bigunnah","Mad Lazim Mutsaqqal","Ikhfa Syafawi","Mad Badal","Qalqalah Kubra"],a:0},
   {q:"Menurut Mertes, berpikir kritis melibatkan...",o:["Kekuatan fisik dan mental","Sikap reflektif dan kemampuan memandu keyakinan dan tindakan","Kecepatan mengambil keputusan","Sumber daya finansial","Dukungan masyarakat"],a:1},
-  {q:"Cara mengetahui segalanya adalah dengan belajar, banyak membaca, dan...",o:["Banyak bertanya kepada yang ahli","Banyak berimajinasi","Mengisolasi diri","Mengandalkan firasat","Meniru orang lain"],a:2},
+  {q:"Cara mengetahui segalanya adalah dengan belajar, banyak membaca, dan...",o:["Banyak bertanya kepada yang ahli","Banyak berimajinasi","Mengisolasi diri","Mengandalkan firasat","Meniru orang lain"],a:0},
   {q:"Tadarus Al-Qur'an sebelum pembelajaran dilakukan selama...",o:["5 menit","10 menit","15 menit","20 menit","30 menit"],a:3},
-  {q:"Ciri ulil albāb adalah keyakinan bahwa tidak ada ciptaan Allah yang...",o:["Memiliki manfaat","Diciptakan dengan tujuan","Sia-sia","Perlu direnungkan","Menunjukkan kebesaran-Nya"],a:4},
+  {q:"Ciri ulil albāb adalah keyakinan bahwa tidak ada ciptaan Allah yang...",o:["Memiliki manfaat","Diciptakan dengan tujuan","Sia-sia","Perlu direnungkan","Menunjukkan kebesaran-Nya"],a:2},
   {q:"Siswa mengecek berita ke BMKG sebelum menyebarkan. Ini mencerminkan...",o:["Tabayyun dalam berpikir kritis","Berpikir kreatif","Sikap apatis","Tawazun waktu","Uswatun hasanah"],a:0},
   {q:"Hanya menggunakan akal untuk duniawi bertentangan dengan konsep berpikir kritis yang mengajarkan...",o:["Fokus materi","Memandang jauh ke depan, memikirkan dunia dan akhirat","Mengabaikan tanggung jawab","Mengutamakan hawa nafsu","Menolak teknologi"],a:1},
   {q:"Hubungan Q.S. Ali 'Imran/3: 190 dan 191 adalah...",o:["190 perintah perang, 191 damai","190 hukum waris, 191 puasa","190 mengajak merenungi penciptaan, 191 menggambarkan ulil albāb","190 kisah Musa, 191 kisah Isa","190 larangan riba, 191 zakat"],a:2},
-  {q:"Tindakan Rasulullah melihat langit lalu membaca ayat menunjukkan...",o:["Ketakutan terhadap cuaca","Keterkaitan fenomena alam dengan ayat qauliyah","Kebiasaan tanpa tujuan","Perintah astronomi","Tanda wahyu baru"],a:3},
-  {q:"Pergantian siang malam tidak boleh dianggap biasa karena...",o:["Ditentukan manusia","Merupakan tanda kebesaran Allah yang membutuhkan akal","Tidak bermanfaat","Terjadi acak","Hanya orang kaya menikmati"],a:4},
+  {q:"Tindakan Rasulullah melihat langit lalu membaca ayat menunjukkan...",o:["Ketakutan terhadap cuaca","Keterkaitan fenomena alam dengan ayat qauliyah","Kebiasaan tanpa tujuan","Perintah astronomi","Tanda wahyu baru"],a:1},
+  {q:"Pergantian siang malam tidak boleh dianggap biasa karena...",o:["Ditentukan manusia","Merupakan tanda kebesaran Allah yang membutuhkan akal","Tidak bermanfaat","Terjadi acak","Hanya orang kaya menikmati"],a:1},
   {q:"Perbedaan berpikir kritis dan kreatif adalah...",o:["Kritis mencari jalan keluar, kreatif menciptakan ide baru","Kritis untuk akhirat, kreatif untuk dunia","Kritis dilarang, kreatif dianjurkan","Kritis tanpa akal, kreatif dengan akal","Kritis ulil albāb, kreatif orang kafir"],a:0},
   {q:"Dalam 'Ruang Kolaborasi', kelompok mahir bertugas...",o:["Belajar sendiri","Membimbing yang kurang mampu dengan target tuntas 1 bulan","Mengajar kelompok sedang tanpa batas","Menggantikan guru","Membuat soal"],a:1},
   {q:"Arti kata 'Yatadabbarun' dalam Q.S. Ali 'Imran/3: 191 adalah...",o:["Berdiri","Duduk","(Mereka) memikirkan","Berbaring","Berzikir"],a:2},
-  {q:"Kaum Quraisy mendatangi kaum Nasrani untuk menanyakan...",o:["Kitab suci","Lokasi tinggal","Nabi Isa A.S. dan mukjizatnya","Cara berdagang","Silsilah keturunan"],a:3},
-  {q:"Husnuzan dan introspeksi diri adalah hasil pembiasaan...",o:["Berpikir logis","Berpikir analitis","Berpikir sistematis","Berpikir kritis","Berpikir kreatif"],a:4},
+  {q:"Kaum Quraisy mendatangi kaum Nasrani untuk menanyakan...",o:["Kitab suci","Lokasi tinggal","Nabi Isa A.S. dan mukjizatnya","Cara berdagang","Silsilah keturunan"],a:2},
+  {q:"Husnuzan dan introspeksi diri adalah hasil pembiasaan...",o:["Berpikir logis","Berpikir analitis","Berpikir sistematis","Berpikir kritis","Berpikir kreatif"],a:3},
   {q:"Peneliti menemukan manfaat tumbuhan untuk kemaslahatan umat. Ini mengamalkan...",o:["Memanfaatkan alam untuk kepentingan umat secara optimal","Menciptakan tumbuhan baru","Mengubah hukum alam","Mengklaim penemu tunggal","Mengabaikan tanda Allah"],a:0},
   {q:"'Mad Tabi'i dibaca waqaf' adalah alasan hukum bacaan...",o:["Alif Lam Syamsiyyah","Mad 'Aridh Lissukun","Idgam Bigunnah","Qalqalah Sugra","Mad Tabi'i biasa"],a:1},
-  {q:"Salat sebelas rakaat di malam hari menunjukkan Rasulullah...",o:["Wajib salat malam lebih banyak","Hamba yang sangat rajin beribadah di malam hari","Lupa jumlah rakaat","Salat malam hanya 11 rakaat","Menunggu Subuh dengan tidur"],a:2},
-  {q:"Definisi Mertes tentang berpikir kritis menekankan pada...",o:["Kecepatan tanpa evaluasi","Mengikuti opini mayoritas","Sikap reflektif dan kemampuan memandu keyakinan dan tindakan","Menghafal tanpa memahami","Penolakan informasi baru"],a:3},
-  {q:"Cara menjaga hafalan Al-Qur'an agar tidak mudah lupa adalah...",o:["Menulis di dinding","Membaca hanya saat Ramadan","Mengajar yang tidak mau belajar","Membaca saat salat, terutama salat malam","Mendengar tanpa menghafal"],a:4},
+  {q:"Salat sebelas rakaat di malam hari menunjukkan Rasulullah...",o:["Wajib salat malam lebih banyak","Hamba yang sangat rajin beribadah di malam hari","Lupa jumlah rakaat","Salat malam hanya 11 rakaat","Menunggu Subuh dengan tidur"],a:1},
+  {q:"Definisi Mertes tentang berpikir kritis menekankan pada...",o:["Kecepatan tanpa evaluasi","Mengikuti opini mayoritas","Sikap reflektif dan kemampuan memandu keyakinan dan tindakan","Menghafal tanpa memahami","Penolakan informasi baru"],a:2},
+  {q:"Cara menjaga hafalan Al-Qur'an agar tidak mudah lupa adalah...",o:["Menulis di dinding","Membaca hanya saat Ramadan","Mengajar yang tidak mau belajar","Membaca saat salat, terutama salat malam","Mendengar tanpa menghafal"],a:3},
   {q:"Karakteristik ulil albāb yang paling tepat adalah...",o:["Senantiasa zikir dan merenungkan penciptaan alam","Hanya menggunakan akal untuk bisnis","Menghindari akal dalam agama","Percaya alam tercipta sendiri","Tidak peduli siksa neraka"],a:0},
   {q:"Dalam Q.S. Al-Baqarah/2: 31, Allah mengajarkan manusia untuk...",o:["Berburu","Membaca, sehingga menjadi mengetahui","Membangun tempat tinggal","Menaklukkan hewan","Membuat api"],a:1},
   {q:"Siswa menimbang-nimbang pilihan jurusan dengan mempertimbangkan dunia-akhirat. Proses ini disebut...",o:["Berpikir kreatif","Berpikir imajinatif","Berpikir kritis","Berpikir intuitif","Berpikir dogmatis"],a:2},
-  {q:"Ulil albāb memohon dijauhkan dari neraka karena...",o:["Takut kehilangan harta","Kesadaran semua bersumber dari Allah dan adanya dosa","Tidak yakin ada surga","Ingin pujian","Merasa dosa tak terampuni"],a:3},
-  {q:"'Saring dan pikirkan informasi' adalah langkah membiasakan berpikir kritis di era...",o:["Keterbelakangan teknologi","Keterbukaan informasi","Kesunyian komunikasi","Ketertutupan budaya","Keterbatasan akses"],a:4},
+  {q:"Ulil albāb memohon dijauhkan dari neraka karena...",o:["Takut kehilangan harta","Kesadaran semua bersumber dari Allah dan adanya dosa","Tidak yakin ada surga","Ingin pujian","Merasa dosa tak terampuni"],a:1},
+  {q:"'Saring dan pikirkan informasi' adalah langkah membiasakan berpikir kritis di era...",o:["Keterbelakangan teknologi","Keterbukaan informasi","Kesunyian komunikasi","Ketertutupan budaya","Keterbatasan akses"],a:1},
   {q:"Makna 'Uswatun Hasanah' terkait akal adalah...",o:["Akal adalah karunia Allah yang harus digunakan untuk kebaikan","Akal sumber penyakit hati","Akal harus ditundukkan","Akal hanya dimiliki nabi","Akal tak berhubungan dengan iman"],a:0},
   {q:"Jumlah rakaat salat Rasulullah setelah azan Bilal sebelum Subuh adalah...",o:["Satu rakaat","Dua rakaat","Tiga rakaat","Empat rakaat","Tidak salat"],a:1},
   {q:"Pembiasaan berpikir kreatif menumbuhkan anggapan bahwa segala sesuatu pasti ada...",o:["Bahayanya","Rahasianya","Manfaatnya","Kelemahannya","Kekurangannya"],a:2},
   {q:"Riwayat asbabun nuzul tentang Bukit Shafa diriwayatkan Ibnu Abi Hatim dari...",o:["Abu Hurairah","Umar bin Khattab","Aisyah","Ibnu Abbas","Anas bin Malik"],a:3},
-  {q:"Kesimpulan utama Q.S. Ali 'Imran/3: 190-191 dan hadis terkait adalah...",o:["Perintah menggunakan akal secara kritis, seimbang, dan mengingat Allah","Larangan mempelajari ilmu alam","Anjuran mengisolasi diri","Hanya fokus ibadah ritual","Menuntut ilmu hanya di lembaga formal"],a:4}
+  {q:"Kesimpulan utama Q.S. Ali 'Imran/3: 190-191 dan hadis terkait adalah...",o:["Perintah menggunakan akal secara kritis, seimbang, dan mengingat Allah","Larangan mempelajari ilmu alam","Anjuran mengisolasi diri","Hanya fokus ibadah ritual","Menuntut ilmu hanya di lembaga formal"],a:0}
 ];
 
 // ========== KONFIGURASI ==========
@@ -569,10 +569,6 @@ function showQuestionNav() {
 
 // ========== SUBMIT ==========
 function confirmSubmit() {
-  if (state.timeLeft > 0) {
-    alert('Anda belum bisa mengumpulkan jawaban sebelum waktu habis!');
-    return;
-  }
   showModal('Konfirmasi Pengumpulan', 'Apakah Anda yakin ingin mengumpulkan jawaban?', () => {
     submitQuiz();
   });
